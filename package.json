@@ -3,14 +3,28 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build ./index.ts --outdir ./dist",
+    "build": "bun build --target=bun ./index.ts --outdir ./dist",
     "build:standalone": "bun build --compile --minify ./index.ts --outfile ./create-adobe-plugin",
+    "publish": "bunx @morlay/bunpublish --access public",
     "start": "bun run index.ts"
+  },
+  "bin": {
+    "create-adobe-plugin": "./dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/exeacut/create-adobe-plugin.git"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "@types/cli-progress": "^3.11.6",
+    "cli-progress": "^3.12.0",
+    "picocolors": "^1.1.0"
   }
 }
