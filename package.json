@@ -1,0 +1,16 @@
+{
+  "name": "create-adobe-plugin",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "build": "bun build ./index.ts --outdir ./dist",
+    "build:standalone": "bun build --compile --minify ./index.ts --outfile ./create-adobe-plugin",
+    "start": "bun run index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
