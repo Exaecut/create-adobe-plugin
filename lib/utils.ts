@@ -27,8 +27,10 @@ export const getSDKInstallPath = (software: AdobeSoftwares): string => {
     const osType = os.platform();
 
     if (osType === 'win32') {
+        fs.mkdirSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'), { recursive: true });
         return path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks', software);
     } else if (osType === 'darwin') {
+        fs.mkdirSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'), { recursive: true });
         return path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks', software);
     } else {
         throw new Error('Unsupported platform');
