@@ -27,10 +27,16 @@ export const getSDKInstallPath = (software: AdobeSoftwares): string => {
     const osType = os.platform();
 
     if (osType === 'win32') {
-        fs.mkdirSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'), { recursive: true });
+        if (!fs.existsSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'))) {
+            fs.mkdirSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'), { recursive: true });
+        }
+
         return path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks', software);
     } else if (osType === 'darwin') {
-        fs.mkdirSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'), { recursive: true });
+        if (!fs.existsSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'))) {
+            fs.mkdirSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'), { recursive: true });
+        }
+
         return path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks', software);
     } else {
         throw new Error('Unsupported platform');
@@ -51,5 +57,20 @@ export const setPersistentEnvVar = (name: string, value: string): boolean => {
         if (profileContent.includes(`export ${name}=`)) return false;
         fs.appendFileSync(profilePath, `\nexport ${name}="${value}"\n`);
         return true;
+    }
+};
+
+export const initGitRepo = (repoUrl: string, localPath: string) => {
+    try {
+        // Navigate to the desired directory and initialize the Git repository
+        const normalizedPath = path.resolve(localPath);
+        child_process.execSync(`git init`, { cwd: normalizedPath, stdio: 'inherit' });
+
+        // Add the remote repository
+        child_process.execSync(`git remote add origin ${repoUrl}`, { cwd: normalizedPath, stdio: 'inherit' });
+
+        console.log(`Git repository initialized at ${normalizedPath} and connected to ${repoUrl}`);
+    } catch (error) {
+        console.error(`Failed to initialize Git repository:`, error);
     }
 };

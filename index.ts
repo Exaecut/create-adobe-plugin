@@ -1,40 +1,51 @@
 import type { AdobeSoftwares, PluginConfiguration } from "./lib/types";
-import { cancel, confirm, group, intro, log, multiselect, note, outro, spinner, text } from "@clack/prompts";
-import { getOS, getSDKInstallPath, sdkList, setPersistentEnvVar } from "./lib/utils";
+import { cancel, confirm, group, groupMultiselect, intro, log, multiselect, note, outro, spinner, text } from "@clack/prompts";
+import { getOS, getSDKInstallPath, initGitRepo, sdkList, setPersistentEnvVar } from "./lib/utils";
 
 import cliProgress from "cli-progress";
 import colors from "picocolors"
 
 async function main() {
     console.clear();
-    intro("Welcome, let's create your plugin!");
+    intro("Configure your Adobe plugin");
 
+    let pluginName: Promise<string | symbol>;
     const pluginConfig = await group({
-        name: () => text({
-            message: "What is the name of your plugin?",
-            placeholder: "Type a plugin name",
-            defaultValue: "my-adobe-plugin"
+        name: () => {
+            pluginName = text({
+                message: "What is the name of your plugin?",
+                placeholder: "new-adobe-plugin",
+                defaultValue: "new-adobe-plugin"
+            });
+
+            return pluginName
+        },
+        pluginPath: async () => text({
+            message: "What is the path of your plugin?",
+            placeholder: `./${String(await pluginName)}`,
+            defaultValue: `./${String(await pluginName)}`
         }),
         category: () => text({
             message: "Under which category your plugin belongs?",
             placeholder: "Type a plugin category",
             defaultValue: "No Category"
         }),
-        supportedSoftwares: () => multiselect({
-            message: "Which softwares are supported by your plugin? (Use spacebar to select)",
-            options: [
-                {
-                    value: "aftereffects",
-                    label: "After Effects",
-                },
-                {
-                    value: "premiere",
-                    label: "Premiere Pro",
-                }
-            ],
-            required: true,
-            initialValues: ["aftereffects", "premiere"]
-        })
+        git: () => group({
+            initialize: () => confirm({
+                message: "Initialize git repository?",
+                initialValue: true,
+                active: "Yes",
+                inactive: "No"
+            }),
+            originPath: async () => text({
+                message: "What is the path of your git repository?",
+                placeholder: `https://github.com/.../${String(await pluginName)}`,
+            })
+        }, {
+            onCancel: () => {
+                cancel("Don't initialize git repository")
+            }
+        }),
     }, {
         onCancel: () => {
             cancel("Cancelled!")
@@ -44,8 +55,11 @@ async function main() {
 
     note(`Your plugin configuration:
     - Name: ${pluginConfig.name}
+    - Path: ${pluginConfig.pluginPath}
     - Category: ${pluginConfig.category}
-    - Supported softwares: ${pluginConfig.supportedSoftwares.join(", ")}`, "Summary");
+    - Initialize git: ${pluginConfig.git.initialize ? "Yes" : "No"}
+    - Git repo url: ${pluginConfig.git.originPath ? pluginConfig.git.originPath : "Not defined"}`,
+        "Summary");
 
     const confirmation = await confirm({ message: "Do you confirm the plugin configuration?", active: "Yes", inactive: "No", initialValue: true });
     if (!confirmation) {
@@ -56,6 +70,10 @@ async function main() {
     const progress = spinner();
 
     progress.start("Creating your plugin...");
+
+    if (pluginConfig.git.initialize) {
+        await initGitRepo(pluginConfig.git.originPath, pluginConfig.pluginPath);
+    }
 
     if (setPersistentEnvVar("EX_AFTERFX_SDK", getSDKInstallPath("aftereffects"))) {
         progress.message(`Created environment variable ${colors.bold(`EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`)}`);
