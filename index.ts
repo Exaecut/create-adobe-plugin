@@ -97,6 +97,7 @@ async function main() {
         `-- CREATED ENVIRONMENT VARIABLES --`,
         `EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`,
         `EX_PREMIERE_SDK=${getSDKInstallPath("premiere")}`,
+        '',
         `-- NEXT STEPS --`,
         `1. cd ${pluginConfig.pluginPath}`,
         `2. code .`,
