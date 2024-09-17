@@ -14,6 +14,4 @@ export const createProject = async (config: PluginConfig) => {
             throw error;
         }
     });
-
-    await new Promise((resolve) => setTimeout(resolve, 3000));
 }
