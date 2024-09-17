@@ -1,9 +1,10 @@
 export type AdobeSoftwares = "aftereffects" | "premiere";
 
-export interface PluginConfiguration {
-    name: string
-    category: string
-    supportedSoftwares: AdobeSoftwares[]
+export type PluginConfig = {
+    name: string;
+    pluginPath: unknown;
+    category: string;
+    initializeGit: boolean;
 }
 
 export type AdobeSDK = {

@@ -60,14 +60,16 @@ export const setPersistentEnvVar = (name: string, value: string): boolean => {
     }
 };
 
-export const initGitRepo = (repoUrl: string, localPath: string) => {
+export const initGitRepo = (repoUrl: string | null, localPath: string) => {
     try {
         // Navigate to the desired directory and initialize the Git repository
         const normalizedPath = path.resolve(localPath);
-        child_process.execSync(`git init`, { cwd: normalizedPath, stdio: 'inherit' });
+        child_process.execSync(`git init`, { cwd: normalizedPath, stdio: 'pipe' });
 
         // Add the remote repository
-        child_process.execSync(`git remote add origin ${repoUrl}`, { cwd: normalizedPath, stdio: 'inherit' });
+        if (repoUrl) {
+            child_process.execSync(`git remote add origin ${repoUrl}`, { cwd: normalizedPath, stdio: 'pipe' });
+        }
 
         console.log(`Git repository initialized at ${normalizedPath} and connected to ${repoUrl}`);
     } catch (error) {

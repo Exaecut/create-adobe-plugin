@@ -1,50 +1,37 @@
-import type { AdobeSoftwares, PluginConfiguration } from "./lib/types";
-import { cancel, confirm, group, groupMultiselect, intro, log, multiselect, note, outro, spinner, text } from "@clack/prompts";
-import { getOS, getSDKInstallPath, initGitRepo, sdkList, setPersistentEnvVar } from "./lib/utils";
+import { cancel, confirm, group, intro, log, note, outro, spinner, text } from "@clack/prompts";
+import { getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
 
-import cliProgress from "cli-progress";
+import type { PluginConfig } from "./lib/types";
 import colors from "picocolors"
+import { createProject } from "./lib/project";
+import fs from "fs"
+import path from "path"
 
 async function main() {
     console.clear();
     intro("Configure your Adobe plugin");
 
-    let pluginName: Promise<string | symbol>;
-    const pluginConfig = await group({
-        name: () => {
-            pluginName = text({
-                message: "What is the name of your plugin?",
-                placeholder: "new-adobe-plugin",
-                defaultValue: "new-adobe-plugin"
-            });
-
-            return pluginName
-        },
-        pluginPath: async () => text({
+    const pluginConfig: PluginConfig = await group({
+        name: () => text({
+            message: "What is the name of your plugin?",
+            placeholder: "new-adobe-plugin",
+            defaultValue: "new-adobe-plugin"
+        }),
+        pluginPath: ({ results }) => text({
             message: "What is the path of your plugin?",
-            placeholder: `./${String(await pluginName)}`,
-            defaultValue: `./${String(await pluginName)}`
+            placeholder: `./${results.name}`,
+            defaultValue: `./${results.name}`
         }),
         category: () => text({
             message: "Under which category your plugin belongs?",
             placeholder: "Type a plugin category",
             defaultValue: "No Category"
         }),
-        git: () => group({
-            initialize: () => confirm({
-                message: "Initialize git repository?",
-                initialValue: true,
-                active: "Yes",
-                inactive: "No"
-            }),
-            originPath: async () => text({
-                message: "What is the path of your git repository?",
-                placeholder: `https://github.com/.../${String(await pluginName)}`,
-            })
-        }, {
-            onCancel: () => {
-                cancel("Don't initialize git repository")
-            }
+        initializeGit: () => confirm({
+            message: "Initialize git repository?",
+            initialValue: false,
+            active: "Yes",
+            inactive: "No"
         }),
     }, {
         onCancel: () => {
@@ -53,12 +40,20 @@ async function main() {
         }
     });
 
+    let originPath = null;
+    if (pluginConfig.initializeGit) {
+        originPath = await text({
+            message: "What is the git repository url?",
+            placeholder: "https://github.com/.../repo.git (Can be left empty)",
+        })
+    }
+
     note(`Your plugin configuration:
     - Name: ${pluginConfig.name}
     - Path: ${pluginConfig.pluginPath}
     - Category: ${pluginConfig.category}
-    - Initialize git: ${pluginConfig.git.initialize ? "Yes" : "No"}
-    - Git repo url: ${pluginConfig.git.originPath ? pluginConfig.git.originPath : "Not defined"}`,
+    - Initialize git: ${pluginConfig.initializeGit ? "Yes" : "No"}
+    - Git repo url: ${originPath ? String(originPath) : "Not defined"}`,
         "Summary");
 
     const confirmation = await confirm({ message: "Do you confirm the plugin configuration?", active: "Yes", inactive: "No", initialValue: true });
@@ -71,8 +66,13 @@ async function main() {
 
     progress.start("Creating your plugin...");
 
-    if (pluginConfig.git.initialize) {
-        await initGitRepo(pluginConfig.git.originPath, pluginConfig.pluginPath);
+    const normalizedPath = path.resolve(String(pluginConfig.pluginPath));
+    if (!fs.existsSync(normalizedPath)) {
+        fs.mkdirSync(normalizedPath, { recursive: true });
+    }
+
+    if (pluginConfig.initializeGit) {
+        initGitRepo(String(originPath), String(pluginConfig.pluginPath));
     }
 
     if (setPersistentEnvVar("EX_AFTERFX_SDK", getSDKInstallPath("aftereffects"))) {
@@ -87,15 +87,23 @@ async function main() {
         log.info(`Environment variable ${colors.bold(`EX_PREMIERE_SDK=${getSDKInstallPath("premiere")}`)} already exists`);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    progress.message(`Creating project files...`);
+
+    await createProject(pluginConfig);
+
     progress.stop(`${colors.green("✔")} Successfully created your plugin ${colors.blue(pluginConfig.name)} !`);
 
     note([
-        `1. cd ./${pluginConfig.name}`,
+        `-- CREATED ENVIRONMENT VARIABLES --`,
+        `EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`,
+        `EX_PREMIERE_SDK=${getSDKInstallPath("premiere")}`,
+        `-- NEXT STEPS --`,
+        `1. cd ${pluginConfig.pluginPath}`,
         `2. code .`,
         `3. make build`,
         colors.yellow(colors.bold("⚠️ IMPORTANT: Manual SDK download is required: https://github.com/exeacut/create-adobe-plugin#manual-sdk-download")),
-    ].join("\n"), "Next steps");
+        `~ by ${colors.bold(colors.bgRedBright('Exaecut'))}`
+    ].join("\n"), "Finished !");
 
     outro("Got any issues? Please open an issue at https://github.com/exeacut/create-adobe-plugin/issues");
 }
