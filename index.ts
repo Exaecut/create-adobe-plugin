@@ -102,7 +102,7 @@ async function main() {
         `2. code .`,
         `3. make build`,
         colors.yellow(colors.bold("⚠️ IMPORTANT: Manual SDK download is required: https://github.com/exeacut/create-adobe-plugin#manual-sdk-download")),
-        `~ by ${colors.bold(colors.bgRedBright('Exaecut'))}`
+        `~ by ${colors.bold('Exaecut')}`
     ].join("\n"), "Finished !");
 
     outro("Got any issues? Please open an issue at https://github.com/exeacut/create-adobe-plugin/issues");
