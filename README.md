@@ -1,15 +1,21 @@
-# create-adobe-plugin
+# @exaecut/create-adobe-plugin
 
-To install dependencies:
+## Install bun
 
-```bash
-bun install
+### Windows
+
+```powershell
+powershell -c "irm bun.sh/install.ps1 | iex"
 ```
 
-To run:
+### MacOS & Linux
 
-```bash
-bun run index.ts
+```powershell
+curl -fsSL https://bun.sh/install | bash
 ```
 
-This project was created using `bun init` in bun v1.1.27. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## How to use
+
+```bash
+bunx create-adobe-plugin
+```
