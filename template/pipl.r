@@ -13,11 +13,11 @@ resource 'PiPL' (16000) {
 		},
 		/* [2] */
 		Name {
-			"Skeleton"
+			"{{name}}"
 		},
 		/* [3] */
 		Category {
-			"Sample Plug-ins"
+			"{{category}}"
 		},
 #ifdef AE_OS_WIN
 	#ifdef AE_PROC_INTELx64
@@ -57,7 +57,7 @@ resource 'PiPL' (16000) {
 		},
 		/* [11] */
 		AE_Effect_Match_Name { /* A unique, constant identifier, unlike a plug-in’s display name, which may be changed dynamically. */
-			"ADBE Skeleton"
+			"{{shortCategory}} {{name}}"
 		},
 		/* [12] */
 		AE_Reserved_Info {

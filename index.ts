@@ -89,7 +89,7 @@ async function main() {
 
     progress.message(`Creating project files...`);
 
-    await createProject(pluginConfig);
+    await createProject(pluginConfig, progress);
 
     progress.stop(`${colors.green("✔")} Successfully created your plugin ${colors.blue(pluginConfig.name)} !`);
 
