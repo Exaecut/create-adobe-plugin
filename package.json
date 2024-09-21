@@ -1,16 +1,42 @@
 {
-  "name": "create-adobe-plugin",
+  "name": "@exaecut/create-adobe-plugin",
+  "version": "0.1.0",
+  "description": "A command-line tool to create a new Adobe plugin.",
+  "author": {
+    "name": "exaecut",
+    "url": "https://github.com/exeacut",
+    "email": "contact@exaecut.io"
+  },
+  "bugs": {
+    "url": "https://github.com/exeacut/create-adobe-plugin/issues",
+    "email": "contact@exaecut.io"
+  },
+  "main": "dist/index.js",
   "module": "index.ts",
   "type": "module",
   "scripts": {
     "build": "bun build --target=bun ./index.ts --outdir ./dist",
     "build:standalone": "bun build --compile --minify ./index.ts --outfile ./create-adobe-plugin",
+    "prepublishOnly": "bun run build",
     "publish": "bunx @morlay/bunpublish --access public",
     "start": "bun run index.ts"
   },
+  "files": [
+    "dist"
+  ],
   "bin": {
-    "create-adobe-plugin": "./dist/index.js"
+    "@exaecut/create-adobe-plugin": "./dist/index.js"
   },
+  "keywords": [
+    "create",
+    "plugin",
+    "adobe",
+    "exaecut",
+    "sdk",
+    "make",
+    "made",
+    "premiere"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/exeacut/create-adobe-plugin.git"
