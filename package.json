@@ -18,14 +18,15 @@
     "build": "bun build --target=bun ./index.ts --outdir ./dist",
     "build:standalone": "bun build --compile --minify ./index.ts --outfile ./create-adobe-plugin",
     "prepublishOnly": "bun run build",
-    "publish": "bunx @morlay/bunpublish --access public",
+    "publish": "npm publish --access public",
     "start": "bun run index.ts"
   },
   "files": [
-    "dist"
+    "dist",
+    "template"
   ],
   "bin": {
-    "@exaecut/create-adobe-plugin": "./dist/index.js"
+    "create-adobe-plugin": "dist/index.js"
   },
   "keywords": [
     "create",
