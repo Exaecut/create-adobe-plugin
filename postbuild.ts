@@ -6,7 +6,7 @@ import path from "path";
 const outputFilePath = path.join(import.meta.dir, 'dist', 'index.js');
 
 // Add the shebang at the top
-const shebang = '#!/usr/bin/env node\n';
+const shebang = '';
 
 (async () => {
   const fileContent = await readFile(outputFilePath, 'utf-8');
