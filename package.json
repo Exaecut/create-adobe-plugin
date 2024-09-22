@@ -1,6 +1,6 @@
 {
   "name": "@exaecut/create-adobe-plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A command-line tool to create a new Adobe plugin.",
   "author": {
     "name": "exaecut",
