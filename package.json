@@ -15,7 +15,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build --target=bun ./index.ts --outdir ./dist",
+    "build": "bun build --target=node ./index.ts --outdir ./dist --minify",
     "postbuild": "bun run postbuild.ts",
     "build:standalone": "bun build --compile --minify ./index.ts --outfile ./create-adobe-plugin",
     "prepublishOnly": "bun run build && npm version patch",
