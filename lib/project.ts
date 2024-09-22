@@ -16,7 +16,7 @@ export const createProject = async (config: PluginConfig, callback: (file: strin
         fs.mkdirSync(projectPath, { recursive: true });
     }
 
-    await fs.cp("./template", projectPath, { recursive: true }, (error) => {
+    await fs.cp(path.join(import.meta.dir, "template"), projectPath, { recursive: true }, (error) => {
         if (error) {
             throw error;
         }
