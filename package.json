@@ -4,11 +4,11 @@
   "description": "A command-line tool to create a new Adobe plugin using C++.",
   "author": {
     "name": "exaecut",
-    "url": "https://github.com/exeacut",
+    "url": "https://github.com/exaecut",
     "email": "contact@exaecut.io"
   },
   "bugs": {
-    "url": "https://github.com/exeacut/create-adobe-plugin/issues",
+    "url": "https://github.com/exaecut/create-adobe-plugin/issues",
     "email": "contact@exaecut.io"
   },
   "main": "dist/index.js",
@@ -40,7 +40,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/exeacut/create-adobe-plugin.git"
+    "url": "git+https://github.com/exaecut/create-adobe-plugin.git"
   },
   "devDependencies": {
     "@types/bun": "latest"

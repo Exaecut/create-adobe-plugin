@@ -27,14 +27,14 @@ export const getSDKInstallPath = (software: AdobeSoftwares): string => {
     const osType = os.platform();
 
     if (osType === 'win32') {
-        if (!fs.existsSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'))) {
-            fs.mkdirSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks'), { recursive: true });
+        if (!fs.existsSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks', software))) {
+            fs.mkdirSync(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks', software), { recursive: true });
         }
 
         return path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'adobe-sdks', software);
     } else if (osType === 'darwin') {
-        if (!fs.existsSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'))) {
-            fs.mkdirSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks'), { recursive: true });
+        if (!fs.existsSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks', software))) {
+            fs.mkdirSync(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks', software), { recursive: true });
         }
 
         return path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'adobe-sdks', software);

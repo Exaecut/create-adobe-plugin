@@ -19,12 +19,34 @@ curl -fsSL https://bun.sh/install | bash
 
 ## How to use
 
-It's recommended to use bun in favor of npm/yarn (node).
+**It is recommended to use bun in favor of npm/yarn (node).**
 
 ```bash
-bun create @exaecut/adobe-plugin
+bun/yarn/npm create @exaecut/adobe-plugin
 ```
 
-```bash
-npm/yarn create @exaecut/adobe-plugin
-```
+## Manual SDK download
+
+1. Download Adobe SDKs. **A Creative Cloud account is required.**
+
+    *After Effect :* <https://developer.adobe.com/after-effects/>
+
+    *Premiere Pro :* <https://developer.adobe.com/premiere-pro/>
+
+2. Extract SDK contents to the following folders.
+
+    **Windows :**
+
+    ```bash
+    %appdata%/exaecut/adobe-sdks/aftereffects (for After Effect SDK)
+    %appdata%/exaecut/adobe-sdks/premiere (for Premiere Pro SDK)
+    ```
+
+    **Mac OS :**
+
+    ```bash
+    /Library/Application Support/exaecut/adobe-sdks/aftereffects
+    /Library/Application Support/exaecut/adobe-sdks/premiere
+    ```
+
+3. **You can now build your plugin !**
