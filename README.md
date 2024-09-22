@@ -1,6 +1,6 @@
 # @exaecut/create-adobe-plugin
 
-## Install bun
+## Install bun (optional)
 
 ### Windows
 
@@ -16,6 +16,12 @@ curl -fsSL https://bun.sh/install | bash
 
 ## How to use
 
+It's recommended to use bun in favor of npm/yarn (node).
+
 ```bash
-bunx create-adobe-plugin
+bun create @exaecut/adobe-plugin
+```
+
+```bash
+npm/yarn create @exaecut/adobe-plugin
 ```
