@@ -71,7 +71,7 @@ export const initGitRepo = (repoUrl: string | null, localPath: string) => {
             child_process.execSync(`git remote add origin ${repoUrl}`, { cwd: normalizedPath, stdio: 'pipe' });
         }
 
-        console.log(`Git repository initialized at ${normalizedPath} and connected to ${repoUrl}`);
+        console.log(repoUrl ? `\nGit repository initialized at ${normalizedPath} and connected to ${repoUrl}` : `\nGit repository initialized at ${normalizedPath}`);
     } catch (error) {
         console.error(`Failed to initialize Git repository:`, error);
     }

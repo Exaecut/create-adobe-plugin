@@ -77,21 +77,21 @@ async function main() {
 
     if (setPersistentEnvVar("EX_AFTERFX_SDK", getSDKInstallPath("aftereffects"))) {
         progress.message(`Created environment variable ${colors.bold(`EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`)}`);
-    } else {
-        log.info(`Environment variable ${colors.bold(`EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`)} already exists`);
     }
 
     if (setPersistentEnvVar("EX_PREMIERE_SDK", getSDKInstallPath("premiere"))) {
         progress.message(`Created environment variable ${colors.bold(`EX_PREMIERE_SDK=${getSDKInstallPath("premiere")}`)}`);
-    } else {
-        log.info(`Environment variable ${colors.bold(`EX_PREMIERE_SDK=${getSDKInstallPath("premiere")}`)} already exists`);
     }
 
     progress.message(`Creating project files...`);
 
     await createProject(pluginConfig, (file) => {
         progress.message(`Applying template to ${colors.bold(file)}`);
-    });
+    }).catch((error) => {
+        progress.stop(`${colors.red("✖")} Failed to create your plugin ${colors.blue(pluginConfig.name)} !`);
+        log.error(error);
+        process.exit(1);
+    })
 
     progress.stop(`${colors.green("✔")} Successfully created your plugin ${colors.blue(pluginConfig.name)} !`);
 

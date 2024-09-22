@@ -16,13 +16,14 @@ export const createProject = async (config: PluginConfig, callback: (file: strin
         fs.mkdirSync(projectPath, { recursive: true });
     }
 
-    await fs.cp(path.join(import.meta.dir, "template"), projectPath, { recursive: true }, (error) => {
+    const templatePath = path.join(import.meta.dir, "template");
+    await fs.cp(templatePath, projectPath, { recursive: true }, (error) => {
         if (error) {
             throw error;
         }
     });
 
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     const files = fs.readdirSync(projectPath, { recursive: true, encoding: "utf-8" })
         .filter((file) => !fs.lstatSync(path.join(projectPath, file)).isDirectory())
