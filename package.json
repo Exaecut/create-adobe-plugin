@@ -1,6 +1,6 @@
 {
   "name": "@exaecut/create-adobe-plugin",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A command-line tool to create a new Adobe plugin using C++.",
   "author": {
     "name": "exaecut",
