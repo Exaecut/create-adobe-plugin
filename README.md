@@ -1,6 +1,9 @@
 # @exaecut/create-adobe-plugin
 
-## Install bun (optional)
+Easily create Adobe Premire Pro/After Effects plugin in C++ using Adobe SDK.
+You need to manually install the Adobe SDK. We are not allowed to distribute them, and unfortunately Adobe doesn't distribute them through github.
+
+## Install bun (recommanded)
 
 ### Windows
 
