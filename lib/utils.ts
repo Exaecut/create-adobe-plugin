@@ -153,7 +153,7 @@ export const downloadAndExtract = async (dest: string) => {
             stream.on('data', (chunk) => {
                 fs.appendFileSync(finalFile, chunk, { encoding: "binary" });
             });
-            
+
             stream.on('error', (err) => {
                 console.error("decompress error: ", err);
                 reject(err);
