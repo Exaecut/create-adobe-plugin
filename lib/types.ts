@@ -2,7 +2,7 @@ export type AdobeSoftwares = "aftereffects" | "premiere";
 
 export type PluginConfig = {
     name: string;
-    pluginPath: unknown;
+    pluginPath: string;
     category: string;
     initializeGit: boolean;
 }

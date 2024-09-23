@@ -49,9 +49,12 @@
   },
   "dependencies": {
     "@clack/prompts": "^0.7.0",
+    "@inquirer/prompts": "^6.0.1",
     "@types/cli-progress": "^3.11.6",
     "cli-progress": "^3.12.0",
     "handlebars": "^4.7.8",
-    "picocolors": "^1.1.0"
+    "ora": "^8.1.0",
+    "picocolors": "^1.1.0",
+    "ts-zstd": "^1.0.1"
   }
 }

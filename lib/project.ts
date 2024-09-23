@@ -1,6 +1,7 @@
 import Handlebars from "handlebars";
 import type { PluginConfig } from "./types";
 import fs from "fs"
+import { initBuck } from "./utils";
 import path from "path";
 
 const compileTemplate = async (filePath: string, data: any) => {
@@ -9,7 +10,7 @@ const compileTemplate = async (filePath: string, data: any) => {
     return template(data);
 }
 
-export const createProject = async (config: PluginConfig, callback: (file: string) => void) => {
+export const createProject = async (config: Partial<PluginConfig>, callback: (file: string) => void) => {
     const projectPath = path.resolve(String(config.pluginPath));
 
     if (!fs.existsSync(projectPath)) {
@@ -37,7 +38,7 @@ export const createProject = async (config: PluginConfig, callback: (file: strin
 
         const data = {
             ...config,
-            shortCategory: config.category.split(" ").join("").substring(0, 4).toUpperCase(),
+            shortCategory: config.category?.split(" ").join("").substring(0, 4).toUpperCase(),
         }
 
         callback(filePath);
@@ -45,4 +46,6 @@ export const createProject = async (config: PluginConfig, callback: (file: strin
         const compiledFile = await compileTemplate(filePath, data);
         await fs.promises.writeFile(filePath, compiledFile);
     }
+
+    await initBuck(projectPath);
 }
