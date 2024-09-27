@@ -1,4 +1,4 @@
-import { addToPathEnvVar, downloadAndExtract, getExaecutDataPath, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
+import { appendToSystemPath, downloadAndExtract, getExaecutDataPath, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
 import { confirm, input } from '@inquirer/prompts';
 
 import type { PluginConfig } from "./lib/types";
@@ -6,7 +6,6 @@ import colors from "picocolors";
 import { createProject } from "./lib/project";
 import fs from "fs";
 import ora from "ora";
-import os from "os";
 import path from "path";
 
 async function main() {
@@ -109,11 +108,7 @@ async function main() {
             spinner.text = `Created environment variable ${colors.bold(`EXAECUT_TOOLS=${getExaecutDataPath("tools")}`)}`;
         }
 
-        if (os.platform() === "win32") {
-            addToPathEnvVar(path.join(os.homedir(), 'AppData', 'Roaming', 'exaecut', 'tools' ?? ''));
-        } else if (os.platform() === "darwin") {
-            addToPathEnvVar(path.join(os.homedir(), 'Library', 'Application Support', 'exaecut', 'tools' ?? ''));
-        }
+        appendToSystemPath(getExaecutDataPath("tools"));
 
         spinner.text = `Downloading buck2...`;
         await downloadAndExtract(getExaecutDataPath("tools"));

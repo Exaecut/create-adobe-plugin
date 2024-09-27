@@ -1,11 +1,11 @@
 import type { AdobeSDK, AdobeSoftwares } from "./types";
-import { decompress, streamDecompress } from 'ts-zstd';
 
 import child_process from "child_process"
 import { fetch } from 'bun';
 import fs from "fs"
 import os from "os"
 import path from "path"
+import { streamDecompress } from 'ts-zstd';
 import { writeFile } from 'fs/promises';
 
 export const sdkList: AdobeSDK = {
@@ -166,49 +166,25 @@ export const downloadAndExtract = async (dest: string) => {
     }
 }
 
-export function addToPathEnvVar(newPath: string) {
-    const platform = os.platform();
-    const isWindows = platform === 'win32';
+export const appendToSystemPath = (folderPath: string) => {
+    const currentPath = process.env.PATH || '';
 
-    if (!fs.existsSync(newPath)) {
-        throw new Error(`The path ${newPath} does not exist`);
+    // Check if the folder is already in PATH
+    if (currentPath.includes(folderPath)) {
+        console.log(`Folder already in PATH: ${folderPath}`);
+        return;
     }
 
-    const normalizedPath = path.resolve(newPath);
-
-    if (isWindows) {
+    if (os.platform() === 'win32') {
         try {
-            // Retrieve the current PATH from the registry (no 1024-character limit)
-            const currentPath = child_process.execSync(`reg query "HKCU\\Environment" /v PATH`).toString();
-            const regPathMatch = currentPath.match(/PATH\s+REG_SZ\s+(.*)/);
-            let existingPath = regPathMatch ? regPathMatch[1].trim() : '';
-
-            if (!existingPath.includes(normalizedPath)) {
-                const newPathValue = `${existingPath};${normalizedPath}`;
-                child_process.execSync(`reg add "HKCU\\Environment" /v PATH /t REG_SZ /d "${newPathValue}" /f`);
-                console.log(`Added ${normalizedPath} to the PATH variable (Windows)`);
-                console.log('You may need to log out and log back in for the changes to take effect.');
-            }
+            child_process.spawnSync(`powershell`, ["./scripts/tools.ps1"], { stdio: 'ignore' });
         } catch (error) {
-            console.error('Failed to update PATH on Windows', error);
+            console.error('Failed to update the PATH using PowerShell:', error);
         }
     } else {
-        // For macOS (and Linux), we modify the shell profile files.
-        const shellProfile = process.env.SHELL?.includes('zsh') ? '.zshrc' : '.bash_profile';
-        const profilePath = path.join(os.homedir(), shellProfile);
-
-        // Check if the path is already in the PATH in the current environment
-        const currentPath = process.env.PATH || '';
-        if (!currentPath.includes(normalizedPath)) {
-            const exportCmd = `export PATH="$PATH:${normalizedPath}"\n`;
-            try {
-                // Append the new path to the shell profile
-                fs.appendFileSync(profilePath, exportCmd);
-                console.log(`Added ${normalizedPath} to ${profilePath}`);
-                console.log(`Run 'source ~/${shellProfile}' or restart your terminal to apply the changes.`);
-            } catch (error) {
-                console.error(`Failed to update ${shellProfile} on macOS`, error);
-            }
-        }
+        const profile = process.env.SHELL?.includes('zsh') ? '~/.zshrc' : '~/.bashrc';
+        child_process.execSync(`echo 'export PATH="${folderPath}:$PATH"' >> ${profile}`);
+        console.log(`Folder appended to ${profile}: ${folderPath}`);
+        console.log('Run "source ~/.zshrc" or "source ~/.bashrc" to apply changes.');
     }
-}
+};

@@ -20,6 +20,13 @@ const shebang = '';
       throw error;
     }
   });
-
   console.log('Copied template folder to dist/template');
+  
+  await fs.cp(path.join(import.meta.dir, 'scripts'), path.join(import.meta.dir, 'dist', 'scripts'), { recursive: true }, (error) => {
+    if (error) {
+      throw error;
+    }
+  });
+  console.log('Copied scripts folder to dist/scripts');
+
 })();
