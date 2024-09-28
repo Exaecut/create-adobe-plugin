@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "name": "Windows x64",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${EX_AFTERFX_SDK}/Headers/**",
+                "${EX_AFTERFX_SDK}/Util/**",
+                "${EX_PREMIERE_SDK}/Headers/**",
+                "${EX_PREMIERE_SDK}/Utils/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "compilerPath": "cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-msvc-x64"
+        },
+        {
+            "name": "macOS ARM",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${EX_AFTERFX_SDK}/Headers/**",
+                "${EX_AFTERFX_SDK}/Util/**",
+                "${EX_PREMIERE_SDK}/Headers/**",
+                "${EX_PREMIERE_SDK}/Utils/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}

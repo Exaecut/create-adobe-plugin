@@ -31,7 +31,7 @@ typedef short int			int16;
 #include "AEFX_ChannelDepthTpl.h"
 #include "AEGP_SuiteHandler.h"
 
-#include "Skeleton_Strings.h"
+#include "core/public/plugin_strings.h"
 
 /* Versioning information */
 

@@ -1,4 +1,5 @@
 #include "core/public/plugin_strings.h"
+#include "core/public/plugin.h"
 
 typedef struct {
 	A_u_long	index;

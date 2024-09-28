@@ -19,17 +19,6 @@ export const sdkList: AdobeSDK = {
     }
 }
 
-export const buckDownloadList: Record<"win32" | "darwin", { url: string, outputFileName: string }> = {
-    "win32": {
-        url: 'https://github.com/facebook/buck2/releases/download/latest/buck2-x86_64-pc-windows-msvc.exe.zst',
-        outputFileName: 'buck2.exe',
-    },
-    "darwin": {
-        url: 'https://github.com/facebook/buck2/releases/download/latest/buck2-aarch64-apple-darwin.zst',
-        outputFileName: 'buck2',
-    },
-};
-
 export function getOS(): "windows" | "mac" {
     const osType = os.platform();
     if (osType === "win32") return "windows";
@@ -113,7 +102,6 @@ export const initGitRepo = (repoUrl: string | symbol | null, localPath: string) 
     }
 };
 
-const BUCK_PATH = path.join(getExaecutDataPath('tools'), os.platform() === 'win32' ? 'buck2.exe' : 'buck');
 export const initBuck = async (localPath: string) => {
     try {
         const normalizedPath = path.resolve(localPath);
@@ -121,48 +109,6 @@ export const initBuck = async (localPath: string) => {
         console.log(`Buck initialized at ${normalizedPath}`);
     } catch (error) {
         console.error(`Failed to initialize Buck:`, error);
-    }
-}
-
-export const downloadAndExtract = async (dest: string) => {
-    const platform = os.platform() as keyof typeof buckDownloadList;
-    const downloadInfo = buckDownloadList[platform];
-    if (!downloadInfo) {
-        throw new Error(`Unsupported platform: ${os.platform()}`);
-    }
-
-    if (fs.existsSync(path.join(dest, downloadInfo.outputFileName))) {
-        return;
-    }
-
-    try {
-        const response = await fetch(downloadInfo.url);
-        if (!response.ok) {
-            throw new Error(`Failed to download ${downloadInfo.url}: ${response.status} ${response.statusText}`);
-        }
-
-        const dataBuffer = await response.arrayBuffer();
-
-        const tempFile = path.join(os.tmpdir(), `${downloadInfo.outputFileName}.zst`);
-        await writeFile(tempFile, Buffer.from(dataBuffer));
-
-        const finalFile = path.join(dest, downloadInfo.outputFileName);
-        return await new Promise<boolean>(async (resolve, reject) => {
-            const stream = await streamDecompress(tempFile);
-
-            stream.on('data', (chunk) => {
-                fs.appendFileSync(finalFile, chunk, { encoding: "binary" });
-            });
-
-            stream.on('error', (err) => {
-                console.error("decompress error: ", err);
-                reject(err);
-            });
-
-            stream.on('end', () => resolve(true));
-        })
-    } catch (err) {
-        throw new Error(`Failed to download and extract ${downloadInfo.outputFileName}: ${err}`);
     }
 }
 
