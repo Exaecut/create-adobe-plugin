@@ -1,7 +1,6 @@
 import Handlebars from "handlebars";
 import type { PluginConfig } from "./types";
 import fs from "fs"
-import { initBuck } from "./utils";
 import path from "path";
 
 const compileTemplate = async (filePath: string, data: any) => {
@@ -46,6 +45,4 @@ export const createProject = async (config: Partial<PluginConfig>, callback: (fi
         const compiledFile = await compileTemplate(filePath, data);
         await fs.promises.writeFile(filePath, compiledFile);
     }
-
-    await initBuck(projectPath);
 }

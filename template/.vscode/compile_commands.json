@@ -1,0 +1,11 @@
+[
+{
+  "directory": "/Users/marvincano/Projects/create-adobe-plugin/template",
+  "arguments": ["/usr/bin/clang", "-c", "-Qunused-arguments", "-fPIC", "-std=c++11", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Headers", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Headers/SP", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Util", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Resources", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/premiere/Headers", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/premiere/Utils", "-o", "build/.objs/plugin/macosx/arm64/src/core/private/plugin_strings.cpp.o", "src/core/private/plugin_strings.cpp"],
+  "file": "src/core/private/plugin_strings.cpp"
+},
+{
+  "directory": "/Users/marvincano/Projects/create-adobe-plugin/template",
+  "arguments": ["/usr/bin/clang", "-c", "-Qunused-arguments", "-fPIC", "-std=c++11", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Headers", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Headers/SP", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Util", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/aftereffects/Resources", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/premiere/Headers", "-I/Users/marvincano/Library/Application Support/exaecut/adobe-sdks/premiere/Utils", "-o", "build/.objs/plugin/macosx/arm64/src/core/private/plugin.cpp.o", "src/core/private/plugin.cpp"],
+  "file": "src/core/private/plugin.cpp"
+}]

@@ -1,12 +1,9 @@
 import type { AdobeSDK, AdobeSoftwares } from "./types";
 
 import child_process from "child_process"
-import { fetch } from 'bun';
 import fs from "fs"
 import os from "os"
 import path from "path"
-import { streamDecompress } from 'ts-zstd';
-import { writeFile } from 'fs/promises';
 
 export const sdkList: AdobeSDK = {
     windows: {
@@ -101,16 +98,6 @@ export const initGitRepo = (repoUrl: string | symbol | null, localPath: string) 
         console.error(`Failed to initialize Git repository:`, error);
     }
 };
-
-export const initBuck = async (localPath: string) => {
-    try {
-        const normalizedPath = path.resolve(localPath);
-        child_process.execSync(`${BUCK_PATH} init --git`, { cwd: normalizedPath, stdio: 'pipe' });
-        console.log(`Buck initialized at ${normalizedPath}`);
-    } catch (error) {
-        console.error(`Failed to initialize Buck:`, error);
-    }
-}
 
 export const appendToSystemPath = (folderPath: string) => {
     const currentPath = process.env.PATH || '';

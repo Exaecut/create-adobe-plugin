@@ -1,4 +1,4 @@
-import { appendToSystemPath, downloadAndExtract, getExaecutDataPath, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
+import { appendToSystemPath, getExaecutDataPath, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
 import { confirm, input } from '@inquirer/prompts';
 
 import type { PluginConfig } from "./lib/types";
@@ -84,7 +84,8 @@ async function main() {
         process.exit(0);
     }
 
-    const spinner = ora({ color: "yellow", text: 'Creating your plugin...', spinner: 'aesthetic' }).start();
+    const spinner = ora({ color: "yellow", text: 'Creating your plugin...' }).start();
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
     try {
         const normalizedPath = path.resolve(String(pluginConfig.pluginPath));
@@ -110,9 +111,6 @@ async function main() {
 
         appendToSystemPath(getExaecutDataPath("tools"));
 
-        spinner.text = `Downloading buck2...`;
-        await downloadAndExtract(getExaecutDataPath("tools"));
-
         spinner.text = `Creating project files...`;
 
         await createProject(pluginConfig, (file: string) => {
@@ -130,12 +128,17 @@ async function main() {
             `-- NEXT STEPS --`,
             `1. cd ${pluginConfig.pluginPath}`,
             `2. code .`,
-            `3. make build`,
+            `3. xmake`,
+            "",
+            `-- DEBUG YOUR PLUGIN --`,
+            `1. xmake run -d plugin`,
+            "",
             colors.yellow(colors.bold("⚠️ IMPORTANT: Manual SDK download is required: https://github.com/exaecut/create-adobe-plugin#manual-sdk-download")),
             `~ by ${colors.bold('Exaecut')}`,
         ].join("\n"));
 
-        console.log("Got any issues? Please open an issue at https://github.com/exaecut/create-adobe-plugin/issues");
+        console.log(`👉 ${colors.bold("Got any issues?")} https://github.com/exaecut/create-adobe-plugin/issues`);
+        console.log(`🙏 ${colors.bold("Want to sponsor us ?")} https:/exaecut.io/sponsor`);
     } catch (error) {
         spinner.fail(`${colors.red("✖")} Failed to create your plugin ${colors.blue(pluginConfig.name)}!`);
         console.error(error);
