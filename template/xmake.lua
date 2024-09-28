@@ -1,6 +1,3 @@
--- Set the Adobe After Effects SDK path
-local AE_SDK_PATH = "../../"
-
 -- Project configuration
 set_project("Skeleton")
 set_languages("c++11")
@@ -10,15 +7,15 @@ target("Skeleton")
     set_kind("shared")
 
     -- Source files
-    add_files(path.join(AE_SDK_PATH, "Util/*.cpp"))
+    add_files(path.join("$(env EX_AFTERFX_SDK)", "Util/*.cpp"))
     add_files("Skeleton_Strings.cpp", "Skeleton.cpp")
 
     -- Include directories
     add_includedirs(
-        path.join(AE_SDK_PATH, "Headers"),
-        path.join(AE_SDK_PATH, "Headers/SP"),
-        path.join(AE_SDK_PATH, "Util"),
-        path.join(AE_SDK_PATH, "Resources"),
+        path.join("$(env EX_AFTERFX_SDK)", "Headers"),
+        path.join("$(env EX_AFTERFX_SDK)", "Headers/SP"),
+        path.join("$(env EX_AFTERFX_SDK)", "Util"),
+        path.join("$(env EX_AFTERFX_SDK)", "Resources"),
         "."
     )
 
@@ -45,10 +42,10 @@ target("Skeleton")
                 path.join(os.projectdir(), "SkeletonPiPL.r"),
                 "-o", path.join(target:targetdir(), "SkeletonPiPL.rsrc"),
                 "-useDF",
-                "-i", path.join(AE_SDK_PATH, "Headers"),
-                "-i", path.join(AE_SDK_PATH, "Headers/SP"),
-                "-i", path.join(AE_SDK_PATH, "Util"),
-                "-i", path.join(AE_SDK_PATH, "Resources"),
+                "-i", path.join("$(env EX_AFTERFX_SDK)", "Headers"),
+                "-i", path.join("$(env EX_AFTERFX_SDK)", "Headers/SP"),
+                "-i", path.join("$(env EX_AFTERFX_SDK)", "Util"),
+                "-i", path.join("$(env EX_AFTERFX_SDK)", "Resources"),
                 "-D __MACH__"
             })
         end)
@@ -64,12 +61,11 @@ target("Skeleton")
 
         -- Add custom commands for PiPL on Windows
         after_build(function (target)
-            os.exec("cl /I ..\\%s\\Headers /I ..\\%s\\Headers\\SP /I ..\\%s\\Util /I ..\\%s\\Resources /EP %s > %s.rr",
-                AE_SDK_PATH, AE_SDK_PATH, AE_SDK_PATH, AE_SDK_PATH, 
+            os.exec("cl /I ..\\$(env EX_AFTERFX_SDK)\\Headers /I ..\\$(env EX_AFTERFX_SDK)\\Headers\\SP /I ..\\$(env EX_AFTERFX_SDK)\\Util /I ..\\$(env EX_AFTERFX_SDK)\\Resources /EP %s > %s.rr",
                 path.join(os.projectdir(), "SkeletonPiPL.r"),
                 path.join(target:targetdir(), project.name())
             )
-            os.exec("%s %s.rr %s.rrc", path.join(AE_SDK_PATH, "Resources/PiPLtool.exe"), target:targetdir(), target:targetdir())
+            os.exec("%s %s.rr %s.rrc", path.join("$(env EX_AFTERFX_SDK)", "Resources/PiPLtool.exe"), target:targetdir(), target:targetdir())
             os.exec("cl /D MSWindows /EP %s.rrc > %s.rc", target:targetdir(), target:targetdir())
         end)
 
