@@ -1,4 +1,4 @@
-import { appendToSystemPath, getExaecutDataPath, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
+import { appendToSystemPath, getExaecutDataPath, getPluginInstallationFolder, getSDKInstallPath, initGitRepo, setPersistentEnvVar } from "./lib/utils";
 import { confirm, input } from '@inquirer/prompts';
 
 import type { PluginConfig } from "./lib/types";
@@ -98,6 +98,10 @@ async function main() {
         }
 
         if (setPersistentEnvVar("EX_AFTERFX_SDK", getSDKInstallPath("aftereffects"))) {
+            spinner.text = `Created environment variable ${colors.bold(`EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`)}`;
+        }
+
+        if (setPersistentEnvVar("ADBE_PLUGIN_BUILDPATH", getPluginInstallationFolder())) {
             spinner.text = `Created environment variable ${colors.bold(`EX_AFTERFX_SDK=${getSDKInstallPath("aftereffects")}`)}`;
         }
 

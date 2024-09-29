@@ -41,6 +41,13 @@ export const getExaecutDataPath = (suffix?: string): string => {
     }
 }
 
+export const getPluginInstallationFolder = () =>
+    path.join(
+        os.platform() === "win32" ? "C:" : "/",
+        os.platform() === "win32" ? "Program Files" : "Library",
+        "Adobe", "Common", "Plug-ins", "7.0", "MediaCore"
+    );
+
 export const getSDKInstallPath = (software: AdobeSoftwares): string => {
     const osType = os.platform();
 

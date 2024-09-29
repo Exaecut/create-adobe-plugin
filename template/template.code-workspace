@@ -4,5 +4,12 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"clangd.arguments": [
+			"--compile-commands-dir=.vscode",
+		],
+		"[xmake]": {
+			"editor.defaultFormatter": "sumneko.lua",
+		}
+	}
 }

@@ -127,12 +127,12 @@ extern "C" DllExport PF_Err PluginDataEntryFunction2(PF_PluginDataPtr inPtr, PF_
     result = PF_REGISTER_EFFECT_EXT2(
         inPtr,
         inPluginDataCallBackPtr,
-        "Skeleton",               // Name
-        "ADBE Skeleton",          // Match Name
-        "Sample Plug-ins",        // Category
-        AE_RESERVED_INFO,         // Reserved Info
-        "EffectMain",             // Entry point
-        "https://www.adobe.com"); // support URL
+        "{{name}}",                       // Name
+        "{{shortCategory}} {{name}}",     // Match Name
+        "{{category}}",                   // Category
+        AE_RESERVED_INFO,                 // Reserved Info
+        "EffectMain",                     // Entry point
+        "https://exaecut.io/no-support"); // support URL
 
     return result;
 }

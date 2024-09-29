@@ -3,7 +3,7 @@
         {
             "name": "Windows x64",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/**",
                 "${EX_AFTERFX_SDK}/Headers/**",
                 "${EX_AFTERFX_SDK}/Util/**",
                 "${EX_PREMIERE_SDK}/Headers/**",
@@ -12,7 +12,11 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "_WINDOWS",
+                "WIN32",
+                "MSWindows",
+                "AE_OS_WIN"
             ],
             "windowsSdkVersion": "10.0.22621.0",
             "compilerPath": "cl.exe",
@@ -23,7 +27,7 @@
         {
             "name": "macOS ARM",
             "includePath": [
-                "${workspaceFolder}/**",
+                "${workspaceFolder}/src/**",
                 "${EX_AFTERFX_SDK}/Headers/**",
                 "${EX_AFTERFX_SDK}/Util/**",
                 "${EX_PREMIERE_SDK}/Headers/**",
@@ -32,7 +36,9 @@
             "defines": [
                 "_DEBUG",
                 "UNICODE",
-                "_UNICODE"
+                "_UNICODE",
+                "__APPLE__",
+                "AE_OS_MAC"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",

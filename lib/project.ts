@@ -29,7 +29,7 @@ export const createProject = async (config: Partial<PluginConfig>, callback: (fi
         .filter((file) => !fs.lstatSync(path.join(projectPath, file)).isDirectory())
         .filter((file) => {
             const ext = path.extname(file);
-            return ext === ".h" || ext === ".cpp" || ext === ".r" || ext === ".strings" || ext === ".plist" || ext === ".md";
+            return ext === ".h" || ext === ".cpp" || ext === ".r" || ext === ".strings" || ext === ".plist" || ext === ".md" || ext === ".lua" || ext === ".json";
         });
 
     for (const file of files) {

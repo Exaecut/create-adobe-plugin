@@ -1,1 +1,6 @@
-/buck-out
+.vscode/compile_commands.json
+build
+*.rc
+*.rr
+*.rrc
+*.rsrc

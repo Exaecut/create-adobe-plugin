@@ -1,5 +1,7 @@
 #include "AEConfig.h"
-#include "AE_EffectVers.h"
+#include "AE_Effect.h"
+#include "AE_EffectCB.h"
+#include <AE_EffectVers.h>
 
 #ifndef AE_OS_WIN
 	#include <AE_General.r>
