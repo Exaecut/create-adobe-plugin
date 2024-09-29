@@ -19,37 +19,29 @@ add_rules("mode.debug", "mode.release")
 target("plugin")
     set_kind("shared")
     set_fpmodels("precise")
-
+    
     local build_path = "$(env ADBE_PLUGIN_BUILDPATH)" or "/output"
-    set_targetdir(build_path)
+    set_targetdir("/output")
     set_basename("{{name}}")
     set_extension(".aex")
 
-    add_files("src/**/private/*.cpp")
+    add_files("$(env EX_AFTERFX_SDK)/Util/*.cpp", "src/**/private/*.cpp")
 
     add_includedirs("src")
-    add_includedirs("$(env EX_AFTERFX_SDK)/Headers")
-    add_includedirs("$(env EX_AFTERFX_SDK)/Headers/SP")
-    add_includedirs("$(env EX_AFTERFX_SDK)/Util")
-    add_includedirs("$(env EX_AFTERFX_SDK)/Resources")
-    add_includedirs("$(env EX_PREMIERE_SDK)/Headers")
-    add_includedirs("$(env EX_PREMIERE_SDK)/Utils")
+    add_includedirs("$(env EX_AFTERFX_SDK)/Headers", "$(env EX_AFTERFX_SDK)/Headers/SP", "$(env EX_AFTERFX_SDK)/Util", "$(env EX_AFTERFX_SDK)/Resources", "$(env EX_PREMIERE_SDK)/Headers", "$(env EX_PREMIERE_SDK)/Utils")
 
     set_pcxxheader("$(env EX_AFTERFX_SDK)/Headers/AE_Effect.h")
 
-    add_defines("_UNICODE")
-    add_defines("_CRT_SECURE_NO_WARNINGS")
+    add_defines("_UNICODE", "UNICODE", "_CRT_SECURE_NO_WARNINGS")
     
-    add_cxxflags("cl::/GR")
-    add_cxxflags("cl::/nologo")
+    add_cxxflags("cl::/GR", "cl::/nologo")
     add_ldflags("/nologo")
 
     if is_mode("debug") then 
         set_symbols("debug")
         set_optimize("none")
         set_warnings("less")
-        add_defines("_DEBUG")
-        add_defines("DEBUG")
+        add_defines("_DEBUG", "DEBUG")
 
         if is_plat("windows") then
             set_runtimes("MDd")
@@ -58,6 +50,7 @@ target("plugin")
         set_symbols("hidden")
         set_warnings("more")
         set_optimize("fast")
+
         if is_plat("windows") then
             set_runtimes("MD")
         end
@@ -65,16 +58,9 @@ target("plugin")
 
     if is_plat("windows") then 
         set_toolchains("msvc")
-        add_cxxflags("/utf-8")
-
-        add_ldflags("/nologo")
-        add_ldflags("/dynamicbase:no")
-        add_ldflags("/machine:x64")
-
-        add_defines("MSWindows")
-        add_defines("_WINDOWS")
-        add_defines("_WINDLL")
-        add_defines("WIN32")
+        add_cxxflags("/utf-8", "/Gz")
+        add_ldflags("/nologo", "/dynamicbase:no", "/machine:x64")
+        add_defines("MSWindows", "_WINDOWS", "_WINDLL", "WIN32")
 
         before_build(function (target)
             import("lib.detect.find_tool")
@@ -104,16 +90,16 @@ target("plugin")
         add_rules("xcode.bundle")
 
         add_frameworks("Cocoa")
-
-        add_defines("__MACH__")
-        add_defines("__APPLE__")
-        add_defines("AE_OS_MAC")
-
         add_files("plugin-Info.plist")
+        add_defines("__MACH__", "__APPLE__")
 
         before_build(function (target)
             os.exec("rez \"" .. pipl .. "\" -o \"" .. output_rsrc .. "\" -useDF -F Carbon -F CoreServices " .. table.concat(includes, " ") .. " -D __MACH__")
         end)
     end
+
+    after_build(function (target)
+        print("🛠️  ~ Don't forget to copy " .. target:targetfile() .. " to $(env ADBE_PLUGIN_BUILDPATH)")
+    end)
 
 target_end()

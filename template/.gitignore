@@ -1,6 +1,7 @@
-.vscode/compile_commands.json
 build
 *.rc
 *.rr
 *.rrc
 *.rsrc
+output
+.vscode/compile_commands.json

@@ -57,10 +57,3 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
-
-build
-compile_commands.json
-*.rc
-*.rr
-*.rrc
-*.rsrc

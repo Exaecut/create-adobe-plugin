@@ -11,5 +11,24 @@
 		"[xmake]": {
 			"editor.defaultFormatter": "sumneko.lua",
 		}
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"type": "cppvsdbg",
+				"request": "launch",
+				"name": "Launch",
+				"program": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2024\\Adobe Premiere Pro.exe",
+				"args": [],
+				"cwd": "${workspaceFolder}",
+				"stopAtEntry": false,
+				"symbolSearchPath": "${workspaceFolder}\\output",
+				"console": "integratedTerminal",
+				"logging": {
+					"moduleLoad": true
+				}
+			}
+		]
 	}
 }
