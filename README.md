@@ -23,7 +23,7 @@ curl -fsSL https://bun.sh/install | bash
 
 ## How to use
 
-**Strictly use bun to use this package !**
+**Strictly use bun to run this package !**
 
 ```bash
 bun create @exaecut/adobe-plugin

@@ -13,6 +13,6 @@ xmake
 ```
 xmake config -m debug
 xmake
-
-xmake run -d plugin
 ```
+
+Then press F5 and select between Premiere or After Effects.
