@@ -6,11 +6,12 @@ import colors from "picocolors";
 import { createProject } from "./lib/project";
 import fs from "fs";
 import ora from "ora";
+import packageInfo from "./package.json";
 import path from "path";
 
 async function main() {
     console.clear();
-    console.log("Configure your Adobe plugin");
+    console.log(`Configure your Adobe plugin - ${colors.blue(colors.bold(packageInfo.name))}`);
 
     let pluginConfig: Partial<PluginConfig> = {};
     pluginConfig.name = await input({
