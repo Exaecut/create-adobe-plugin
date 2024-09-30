@@ -11,7 +11,7 @@ import path from "path";
 
 async function main() {
     console.clear();
-    console.log(`Configure your Adobe plugin - ${colors.blue(colors.bold(packageInfo.name))}`);
+    console.log(`Configure your Adobe plugin - ${colors.blue(colors.bold(packageInfo.version))}`);
 
     let pluginConfig: Partial<PluginConfig> = {};
     pluginConfig.name = await input({
