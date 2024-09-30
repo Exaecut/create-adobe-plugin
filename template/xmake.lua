@@ -38,7 +38,7 @@ target("plugin")
     add_ldflags("/nologo")
 
     if is_mode("debug") then 
-        set_symbols("debug")
+        set_symbols("debug", "edit")
         set_optimize("none")
         set_warnings("less")
         add_defines("_DEBUG", "DEBUG")

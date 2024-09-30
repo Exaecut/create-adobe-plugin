@@ -7,10 +7,7 @@
 	"settings": {
 		"clangd.arguments": [
 			"--compile-commands-dir=.vscode",
-		],
-		"[xmake]": {
-			"editor.defaultFormatter": "sumneko.lua",
-		}
+		]
 	},
 	"launch": {
 		"version": "0.2.0",
@@ -18,12 +15,26 @@
 			{
 				"type": "cppvsdbg",
 				"request": "launch",
-				"name": "Launch",
-				"program": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2024\\Adobe Premiere Pro.exe",
+				"name": "Adobe Premiere Pro",
+				"program": "${env:PROGRAMFILES}/Adobe/Adobe Premiere Pro 2024/Adobe Premiere Pro.exe",
 				"args": [],
 				"cwd": "${workspaceFolder}",
 				"stopAtEntry": false,
-				"symbolSearchPath": "${workspaceFolder}\\output",
+				"symbolSearchPath": "${workspaceFolder}/output",
+				"console": "integratedTerminal",
+				"logging": {
+					"moduleLoad": true
+				}
+			},
+			{
+				"type": "cppvsdbg",
+				"request": "launch",
+				"name": "Adobe After Effects",
+				"program": "${env:PROGRAMFILES}/Adobe/Adobe After Effects 2024/Support Files/AfterFX.exe",
+				"args": [],
+				"cwd": "${workspaceFolder}",
+				"stopAtEntry": false,
+				"symbolSearchPath": "${workspaceFolder}/output",
 				"console": "integratedTerminal",
 				"logging": {
 					"moduleLoad": true

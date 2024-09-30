@@ -63,11 +63,11 @@ resource 'PiPL' (16000) {
 		},
 		/* [12] */
 		AE_Reserved_Info {
-			0
+			8
 		},
 		/* [13] */
 		AE_Effect_Support_URL {
-			"https://www.adobe.com"
+			"https://exaecut.io/no-support"
 		}
 	}
 };
